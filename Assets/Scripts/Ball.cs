@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Ball : MonoBehaviour
 {
@@ -33,14 +33,22 @@ public class Ball : MonoBehaviour
         _rb.velocity = _startDirection;
     }
 
-    #endregion
-
-
     public void MoveWithPad()
     {
         Vector3 padPosition = _pad.transform.position;
         Vector3 currentPosition = transform.position;
         currentPosition.x = padPosition.x;
         transform.position = currentPosition;
+    }
+
+    #endregion
+
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.name == "bottom")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }
