@@ -2152,7 +2152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 1948658558}
-  _startDirection: {x: 1, y: 6}
+  _startDirection: {x: 1, y: 15}
   _pad: {fileID: 958057838}
 --- !u!50 &1948658558
 Rigidbody2D:

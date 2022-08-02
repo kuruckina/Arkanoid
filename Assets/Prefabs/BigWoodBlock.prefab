@@ -46,10 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6108b2d46085024baa0a0b2abcabfd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blockWood: {fileID: 7076769393007503715}
+  _life: 4
+  _block: {fileID: 7076769393007503715}
   _blockWithCracks:
   - {fileID: 21300000, guid: 2854ee18f114d4b1fa00a5e53e9e1666, type: 3}
   - {fileID: 21300000, guid: 25fff95bb29da4c8c9e46644cffe8d9b, type: 3}
+  _points: 3
 --- !u!212 &7076769393007503715
 SpriteRenderer:
   m_ObjectHideFlags: 0

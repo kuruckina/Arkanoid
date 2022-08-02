@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = System.Random;
 
 public class Ball : MonoBehaviour
 {
@@ -14,6 +16,11 @@ public class Ball : MonoBehaviour
 
     #region Unity lifecycle
 
+    private void Start()
+    {
+        _startDirection.x = (int)UnityEngine.Random.Range(-12f, 12f);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
@@ -21,6 +28,14 @@ public class Ball : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + (Vector3) _rb.velocity);
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.name == "bottom")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     #endregion
@@ -42,13 +57,4 @@ public class Ball : MonoBehaviour
     }
 
     #endregion
-
-
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        if (col.gameObject.name == "bottom")
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-    }
 }
