@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,24 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
+    #region Properties
+
+    public int Score { get; private set; }
+
+    #endregion
+
+
     #region Unity Lifecycle
+
+    private void Start()
+    {
+        FindObjectOfType<LevelManager>().OnAllBlocksDestroyed += PerforWin;
+    }
+
+    private void OnDestroy()
+    {
+        FindObjectOfType<LevelManager>().OnAllBlocksDestroyed -= PerforWin;
+    }
 
     private void Update()
     {
@@ -25,6 +43,22 @@ public class GameManager : MonoBehaviour
         {
             StartBall();
         }
+    }
+
+    #endregion
+
+
+    #region Public methods
+
+    public void PerforWin()
+    {
+        Debug.Log("WIIIN");
+    }
+
+    public void AddScore(int point)
+    {
+        Score += point;
+        FindObjectOfType<HUD>().SetScoreText($"Score: {Score}");
     }
 
     #endregion

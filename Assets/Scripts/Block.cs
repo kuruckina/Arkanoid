@@ -1,23 +1,31 @@
 using System;
-using TMPro;
 using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    #region Unity lifecycle
+    #region Veriables
 
-    [SerializeField] private int _life;
+    public int _life;
     [SerializeField] private SpriteRenderer _block;
     [SerializeField] private Sprite[] _blockWithCracks;
     [SerializeField] private int _points;
 
-    public TextMeshProUGUI ScoreLabel;
+    #endregion
 
-    int _score;
+
+    #region Events
+
+    public static event Action<Block, int> OnDestroved;
+    public static event Action<Block> OnCreated;
+
+    #endregion
+
+
+    #region Unity lifecycle
 
     private void Start()
     {
-        _score = 0;
+        OnCreated?.Invoke(this);
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -26,9 +34,12 @@ public class Block : MonoBehaviour
         if (_life == 0)
         {
             Destroy(gameObject);
-            SetScoreText();
-            
         }
+    }
+
+    private void OnDestroy()
+    {
+        OnDestroved?.Invoke(this, _points);
     }
 
     #endregion
@@ -36,7 +47,7 @@ public class Block : MonoBehaviour
 
     #region Private methods
 
-    private void SetSprite()
+    public void SetSprite()
     {
         _life--;
         if (_life == 2)
@@ -49,12 +60,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    private void SetScoreText()
-    {
-        _score = _score + _points;
-        Debug.Log(_score);
-        ScoreLabel.text = $"Score: {_score}";
-    }
+    
 
     #endregion
 }

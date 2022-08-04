@@ -11,7 +11,7 @@ public class Pad : MonoBehaviour
 
         Vector3 currentPosition = transform.position;
         currentPosition.x = mousePositionInUnits.x;
-        transform.position = currentPosition;
+        transform.position = currentPosition ;
     }
 
     #endregion

@@ -5,6 +5,7 @@ using Random = System.Random;
 
 public class Ball : MonoBehaviour
 {
+    public event Action OnLosed;
     #region Veriables
 
     [SerializeField] private Rigidbody2D _rb;
@@ -34,7 +35,9 @@ public class Ball : MonoBehaviour
     {
         if (col.gameObject.name == "bottom")
         {
+            OnLosed?.Invoke();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            
         }
     }
 
