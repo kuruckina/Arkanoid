@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _levels;
+    [SerializeField] private GameObject _gameCompleted;
     private int _blocksCount;
     public event Action OnAllBlocksDestroyed;
 
@@ -53,7 +54,10 @@ public class LevelManager : MonoBehaviour
 
     private void DeleteLevel(int level)
     {
-        //_levels[level].SetActive(false);
         _levels.RemoveAt(level);
+        if (_levels.Count == 0 && _blocksCount == 0)
+        {
+            _gameCompleted.SetActive(true);
+        }
     }
 }

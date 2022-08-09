@@ -60,6 +60,7 @@ public class Block : MonoBehaviour
     public void SetSprite()
     {
         _life--;
+
         if (_life == 2)
         {
             _block.sprite = _blockWithCracks[0];
