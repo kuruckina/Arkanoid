@@ -1,11 +1,7 @@
-using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Random = System.Random;
 
 public class Ball : MonoBehaviour
 {
-    public event Action OnLosed;
     #region Veriables
 
     [SerializeField] private Rigidbody2D _rb;
@@ -19,7 +15,7 @@ public class Ball : MonoBehaviour
 
     private void Start()
     {
-        _startDirection.x = (int)UnityEngine.Random.Range(-12f, 12f);
+        _startDirection.x = (int) UnityEngine.Random.Range(-12f, 12f);
     }
 
     private void OnDrawGizmos()
@@ -29,16 +25,6 @@ public class Ball : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + (Vector3) _rb.velocity);
-    }
-
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        if (col.gameObject.name == "bottom")
-        {
-            OnLosed?.Invoke();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            
-        }
     }
 
     #endregion
@@ -53,9 +39,11 @@ public class Ball : MonoBehaviour
 
     public void MoveWithPad()
     {
+        _rb.velocity = new Vector2(_startDirection.x, 0);
         Vector3 padPosition = _pad.transform.position;
         Vector3 currentPosition = transform.position;
         currentPosition.x = padPosition.x;
+        currentPosition.y = padPosition.y + 0.8f;
         transform.position = currentPosition;
     }
 

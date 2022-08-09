@@ -3,25 +3,16 @@ using TMPro;
 
 public class HUD : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _label;
-    private int _lifes = 3;
+    [SerializeField] private TextMeshProUGUI _scoreLabel;
+    [SerializeField] private TextMeshProUGUI _lifesLabel;
 
-    private void Start()
+    public void SetLifeText(string text)
     {
-        FindObjectOfType<Ball>().OnLosed += SetLifeText;
-    }
-
-    private void SetLifeText()
-    {
-        _lifes--;
-        _label.text = $"Lifes: {_lifes}";
-        if (_lifes == 0)
-        {
-        }
+        _lifesLabel.text = text;
     }
 
     public void SetScoreText(string text)
     {
-        _label.text = text;
+        _scoreLabel.text = text;
     }
 }

@@ -1,11 +1,11 @@
 using UnityEngine;
-using System;
 
 public class GameManager : MonoBehaviour
 {
     #region Veriables
 
     [SerializeField] private Ball _ball;
+    [SerializeField] private int _lifes;
     private bool _isStarted;
 
     #endregion
@@ -22,12 +22,25 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<LevelManager>().OnAllBlocksDestroyed += PerforWin;
+        FindObjectOfType<HUD>().SetScoreText($"Score: {Score}");
+        FindObjectOfType<HUD>().SetLifeText($"Lifes: {_lifes}");
+        FindObjectOfType<LevelManager>().OnAllBlocksDestroyed += Win;
+        FindObjectOfType<BottomWall>().OnLosed += LoseLifes;
     }
 
     private void OnDestroy()
     {
-        FindObjectOfType<LevelManager>().OnAllBlocksDestroyed -= PerforWin;
+        LevelManager levelManager = FindObjectOfType<LevelManager>();
+        if (levelManager != null)
+        {
+            levelManager.OnAllBlocksDestroyed -= Win;
+        }
+
+        BottomWall bottomWall = FindObjectOfType<BottomWall>();
+        if (bottomWall != null)
+        {
+            FindObjectOfType<BottomWall>().OnLosed -= LoseLifes;
+        }
     }
 
     private void Update()
@@ -50,15 +63,24 @@ public class GameManager : MonoBehaviour
 
     #region Public methods
 
-    public void PerforWin()
+    public void Win()
     {
-        Debug.Log("WIIIN");
+        if (FindObjectOfType<WinOrLose>())
+            FindObjectOfType<WinOrLose>().PerforWin();
     }
 
     public void AddScore(int point)
     {
         Score += point;
-        FindObjectOfType<HUD>().SetScoreText($"Score: {Score}");
+        if (FindObjectOfType<HUD>())
+        {
+            FindObjectOfType<HUD>().SetScoreText($"Score: {Score}");
+        }
+    }
+
+    public void ChangeIsStarted()
+    {
+        _isStarted = !_isStarted;
     }
 
     #endregion
@@ -66,9 +88,21 @@ public class GameManager : MonoBehaviour
 
     #region Private methods
 
+    private void LoseLifes()
+    {
+        _lifes--;
+        FindObjectOfType<HUD>().SetLifeText($"Lifes: {_lifes}");
+        ChangeIsStarted();
+
+        if (_lifes == 0)
+        {
+            FindObjectOfType<WinOrLose>().PerforLose();
+        }
+    }
+
     private void StartBall()
     {
-        _isStarted = true;
+        ChangeIsStarted();
         _ball.StartMove();
     }
 

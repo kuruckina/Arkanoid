@@ -6,6 +6,10 @@ public class Pad : MonoBehaviour
 
     private void Update()
     {
+        if (FindObjectOfType<PauseManager>().IsPaused)
+        {
+            return;
+        }
         Vector3 mousePositionInPixels = Input.mousePosition;
         Vector3 mousePositionInUnits = Camera.main.ScreenToWorldPoint(mousePositionInPixels);
 

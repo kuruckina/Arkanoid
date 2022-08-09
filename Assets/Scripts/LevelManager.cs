@@ -1,13 +1,18 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private List<GameObject> _levels;
     private int _blocksCount;
     public event Action OnAllBlocksDestroyed;
 
     private void Awake()
     {
+        LoadLevel();
         Block.OnCreated += BlockCreated;
         Block.OnDestroved += BlockDestroyed;
     }
@@ -20,7 +25,12 @@ public class LevelManager : MonoBehaviour
 
     private void BlockDestroyed(Block block, int point)
     {
-        FindObjectOfType<GameManager>().AddScore(point);
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.AddScore(point);
+        }
+
         _blocksCount--;
 
         if (_blocksCount == 0)
@@ -32,5 +42,18 @@ public class LevelManager : MonoBehaviour
     private void BlockCreated(Block block)
     {
         _blocksCount++;
+    }
+
+    public void LoadLevel()
+    {
+        int _randLevel = (int) Random.Range(0, _levels.Count);
+        _levels[_randLevel].SetActive(true);
+        DeleteLevel(_randLevel);
+    }
+
+    private void DeleteLevel(int level)
+    {
+        //_levels[level].SetActive(false);
+        _levels.RemoveAt(level);
     }
 }

@@ -30,16 +30,26 @@ public class Block : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        SetSprite();
-        if (_life == 0)
-        {
-            Destroy(gameObject);
-        }
+        ApplyDamage();
     }
 
     private void OnDestroy()
     {
         OnDestroved?.Invoke(this, _points);
+    }
+
+    #endregion
+
+
+    #region Public methods
+
+    protected virtual void ApplyDamage()
+    {
+        SetSprite();
+        if (_life == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     #endregion
@@ -59,8 +69,6 @@ public class Block : MonoBehaviour
             _block.sprite = _blockWithCracks[1];
         }
     }
-
-    
 
     #endregion
 }

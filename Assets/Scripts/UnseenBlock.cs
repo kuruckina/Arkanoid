@@ -1,14 +1,33 @@
+using System;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class UnseenBlock : Block
 {
-    private void OnCollisionEnter2D(Collision2D col)
+    private SpriteRenderer _spriteRenderer;
+    private bool _isVisible;
+
+    private void Awake()
     {
-        gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        SetSprite();
-        if (_life == 0)
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        UpdateSpriteRenderer();
+    }
+
+    protected override void ApplyDamage()
+    {
+        if (_isVisible)
         {
-            Destroy(gameObject);
+            base.ApplyDamage();
         }
+        else
+        {
+            _isVisible = true;
+            UpdateSpriteRenderer();
+        }
+    }
+
+    private void UpdateSpriteRenderer()
+    {
+        _spriteRenderer.enabled = _isVisible;
     }
 }

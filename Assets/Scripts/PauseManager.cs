@@ -3,6 +3,8 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] private GameObject _pause;
+
+
     #region Properties
 
     public bool IsPaused { get; private set; }
@@ -17,6 +19,7 @@ public class PauseManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
+            _pause.SetActive(IsPaused);
         }
     }
 
@@ -25,10 +28,9 @@ public class PauseManager : MonoBehaviour
 
     #region Private methods
 
-    private void TogglePause()
+    public void TogglePause()
     {
         IsPaused = !IsPaused;
-        _pause.SetActive(IsPaused);
         Time.timeScale = IsPaused ? 0 : 1;
     }
 
